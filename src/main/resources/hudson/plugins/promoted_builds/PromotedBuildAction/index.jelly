@@ -9,6 +9,13 @@
         <h2>
           <img src="${rootURL}${p.getIcon('32x32')}"/> ${p.name}
         </h2>
+        <j:choose>
+          <j:when test="${p.isBadPromotion()}">
+            <div style="color:red; padding-bottom:5px">
+              This was marked as a bad promotion
+            </div>
+          </j:when>
+        </j:choose>
 
         <!-- history of this promotion -->
         <l:pane title="${%Promotion History}" width="100">
@@ -20,7 +27,28 @@
             </td></tr>
           </j:forEach>
         </l:pane>
-
+        <br />
+      	<j:choose>
+        	<j:when test="${p.isPromotionSuccessful()}">
+            <l:pane title="${%Mark as Bad Promotion}" width="100"><tr><td>
+              <f:form method="post" action="markBad?name=${p.name}">
+                  <f:block>
+                    <f:submit value="${%Mark Bad}" />
+                  </f:block>
+              </f:form>
+            </td></tr></l:pane>
+        	</j:when>
+          <j:otherwise>
+            <l:pane title="${%Undo Mark as Bad Promotion}" width="100"><tr><td>
+              <f:form method="post" action="undoMarkBad?name=${p.name}">
+                  <f:block>
+                    <f:submit value="${%Undo}"/>
+                  </f:block>
+              </f:form>
+            </td></tr></l:pane>
+          </j:otherwise>
+        </j:choose>
+        
         <!-- how did this build qualify for promotion? -->
         <h4>
           ${%Qualification}

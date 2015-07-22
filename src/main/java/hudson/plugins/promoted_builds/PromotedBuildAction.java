@@ -218,4 +218,36 @@ public final class PromotedBuildAction implements BuildBadgeAction {
 
         return HttpResponses.redirectToDot();
     }
+
+    public HttpResponse doMarkBad(@QueryParameter("name") String name) throws IOException {
+//        if(!req.getMethod().equals("POST")) {// require post,
+//            rsp.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+//            return;
+//        }
+
+        this.getProject().checkPermission(Promotion.PROMOTE);
+
+        Status s = this.getPromotion(name);
+        if(s != null) {
+            s.markBad();
+        }
+
+        return HttpResponses.redirectToDot();
+    }
+
+    public HttpResponse doUndoMarkBad(@QueryParameter("name") String name) throws IOException {
+//        if(!req.getMethod().equals("POST")) {// require post,
+//            rsp.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+//            return;
+//        }
+
+        this.getProject().checkPermission(Promotion.PROMOTE);
+
+        Status s = this.getPromotion(name);
+        if(s != null) {
+            s.undoMarkBad();
+        }
+
+        return HttpResponses.redirectToDot();
+    }
 }

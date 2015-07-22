@@ -16,14 +16,27 @@
           <j:forEach var="attempt" items="${it.getPromotionsSummary(c)}">
             <tr><td>
               <a href="../${attempt.target.number}/promotion/${c.name}/promotionBuild/${attempt.number}/" class="model-link">
-                <img src="${imagesURL}/16x16/${attempt.buildStatusUrl}"
-                 alt="${attempt.iconColor.description}"/> ${c.name} #${attempt.number}
+                <j:choose>
+                  <j:when test="${attempt.isBadPromotion()}">
+                    <img src="${imagesURL}/16x16/red.png"
+                 alt="Failure"/>
+                  </j:when>
+                  <j:otherwise>
+                    <img src="${imagesURL}/16x16/${attempt.buildStatusUrl}"
+                     alt="${attempt.iconColor.description}"/>
+                  </j:otherwise>
+                </j:choose>${c.name} #${attempt.number}
               </a>
               	promoted build
               	<a href="../${attempt.target.number}/" class="model-link">
               		 #${attempt.target.number}
               	</a>
               	on ${attempt.time}
+                <j:choose>
+                  <j:when test="${attempt.isBadPromotion()}">
+                    <p style="color:red">- Marked as Bad Promotion</p>
+                  </j:when> 
+                </j:choose>
             </td></tr>
           </j:forEach>
         </l:pane>

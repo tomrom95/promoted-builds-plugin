@@ -90,6 +90,11 @@ public class Promotion extends AbstractBuild<PromotionProcess,Promotion>
         return getTarget().getAction(PromotedBuildAction.class).getPromotion(getParent().getName());
     }
 
+    public boolean isBadPromotion() {
+        Status s = getStatus();
+        return s.isBadPromotion();
+    }
+
 	public String getIcon() {
 		return icon;
 	}

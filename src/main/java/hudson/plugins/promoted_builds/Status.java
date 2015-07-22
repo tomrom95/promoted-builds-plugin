@@ -57,6 +57,7 @@ public final class Status {
      * -1 to indicate that the promotion was not successful yet. 
      */
     private int promotion = -1;
+    private int old_promotion = 0;
 
     /**
      * Bulid numbers of {@link Promotion}s that are attempted.
@@ -121,6 +122,9 @@ public final class Status {
 				baseName = p.getIcon();
 
 			}
+            if(promotion == -2) {
+                baseName = "star-red";
+            }
 		}
 		return baseName != null && !"none".equals(baseName) ? Jenkins.RESOURCE_PATH + "/plugin/promoted-builds/icons/" + size + "/" + baseName + ".png" : null;
 	}
@@ -190,6 +194,19 @@ public final class Status {
      */
     public boolean isPromotionSuccessful() {
         return promotion>=0;
+    }
+
+    public void markBad() {
+        this.old_promotion = this.promotion;
+        this.promotion = -2;
+    }
+    public void undoMarkBad() {
+        this.promotion = this.old_promotion;
+    }
+
+
+    public boolean isBadPromotion() {
+        return (promotion==-2);
     }
 
     /**
